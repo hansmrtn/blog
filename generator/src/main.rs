@@ -37,7 +37,7 @@ impl MdFile {
         let mut html_file = File::create(html_file_path)?;
         write!(
             html_file,
-            "<html><head><title>{}</title></head><body>{}</body></html>",
+            "<html><head><style>body{{font-family:monospace}}</style><title>{}</title></head><body>{}</body></html>",
             file_stem, html_content
         )?;
 
@@ -45,7 +45,7 @@ impl MdFile {
     }
 }
 
-fn main() -> Result<()>{
+fn main() -> Result<()> {
     let args: Vec<String> = env::args().collect();
     let file_name = args[1].clone();
     let md = MdFile::new(file_name);
