@@ -1,0 +1,9 @@
+[package]
+name = "generator"
+version = "0.1.0"
+edition = "2021"
+
+[dependencies]
+anyhow = "1.0.100"
+glob = "0.3.3"
+pulldown-cmark = "0.13.0"
