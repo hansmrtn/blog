@@ -37,7 +37,7 @@ impl MdFile {
         let mut html_file = File::create(html_file_path)?;
         write!(
             html_file,
-            "<html><head><style>body{{font-family:monospace}}</style><title>{}</title></head><body>{}</body></html>",
+            "<html><head><style>body{{font-family:monospace}}code{{background:#f4f4f4;padding:2px 4px;border-radius:3px}}pre{{background:#f4f4f4;padding:12px;border-radius:5px;overflow-x:auto}}pre code{{padding:0;background:none}}</style><title>{}</title></head><body>{}</body></html>",
             file_stem, html_content
         )?;
 
