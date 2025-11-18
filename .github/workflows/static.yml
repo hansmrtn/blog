@@ -1,5 +1,5 @@
-# Simple workflow for deploying static content to GitHub Pages
-name: Deploy static content to Pages
+# Workflow for building markdown generator and deploying to GitHub Pages
+name: Build and Deploy to Pages
 
 on:
   # Runs on pushes targeting the default branch
@@ -22,8 +22,7 @@ concurrency:
   cancel-in-progress: false
 
 jobs:
-  # Single deploy job since we're just deploying
-  deploy:
+  build-and-deploy:
     environment:
       name: github-pages
       url: ${{ steps.deployment.outputs.page_url }}
@@ -31,13 +30,42 @@ jobs:
     steps:
       - name: Checkout
         uses: actions/checkout@v4
+      
+      - name: Setup Rust
+        uses: actions-rust-lang/setup-rust-toolchain@v1
+        with:
+          toolchain: stable
+      
+      - name: Build generator
+        working-directory: ./generator
+        run: cargo build --release
+      
+      - name: Create output directory
+        run: mkdir -p output
+      
+      - name: Generate HTML from markdown files
+        run: |
+          for file in $(find . -name "*.md" -not -path "./generator/target/*" -not -path "./output/*"); do
+            echo "Processing $file"
+            ./generator/target/release/generator "$file" output
+          done
+      
+      - name: Copy static files
+        run: |
+          cp index.html output/ || true
+          cp -r assets output/ || true
+          cp -r css output/ || true
+          cp -r js output/ || true
+      
       - name: Setup Pages
         uses: actions/configure-pages@v5
+      
       - name: Upload artifact
         uses: actions/upload-pages-artifact@v3
         with:
-          # Upload entire repository
-          path: '.'
+          path: 'output'
+      
       - name: Deploy to GitHub Pages
         id: deployment
         uses: actions/deploy-pages@v4
+
