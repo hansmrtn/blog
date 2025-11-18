@@ -6,7 +6,7 @@ This is a small static site generator that converts markdown files to HTML for m
 
 ```bash
 cargo build --release
-./target/release/generator input.md output/
+./target/release/generator path/to/input.md path/to/output_directory/
 ```
 
 ## Deployment
