@@ -1,6 +1,6 @@
 # blog
 
-This is minimal static site generator that converts markdown files to HTML. 
+This is a small static site generator that converts markdown files to HTML for my github pages blog.
 
 ## Usage
 
